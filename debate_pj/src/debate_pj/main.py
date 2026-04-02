@@ -18,12 +18,13 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'AI LLMs',
+        'motion': 'There need to be strict laws to regualte llms ',
         'current_year': str(datetime.now().year)
     }
 
     try:
-        DebatePj().crew().kickoff(inputs=inputs)
+        result = DebatePj().crew().kickoff(inputs=inputs)
+        print(result.raw)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 
