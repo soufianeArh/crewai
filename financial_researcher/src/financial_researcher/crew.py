@@ -1,6 +1,8 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
+from crewai_tools import SerperDevTool
+
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
@@ -12,6 +14,10 @@ class FinancialResearcher():
     agents: list[BaseAgent]
     tasks: list[Task]
 
+    agents_config = "./config/agents.yaml"
+    tasks_config = "./config/tasks.yaml"
+
+
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
     # Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
@@ -22,13 +28,14 @@ class FinancialResearcher():
     def researcher(self) -> Agent:
         return Agent(
             config=self.agents_config['researcher'], # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[SerperDevTool()]
         )
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def analyst(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'], # type: ignore[index]
+            config=self.agents_config['analyst'], # type: ignore[index]
             verbose=True
         )
 
@@ -42,10 +49,9 @@ class FinancialResearcher():
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def analysis_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'], # type: ignore[index]
-            output_file='report.md'
+            config=self.tasks_config['analysis_task'], # type: ignore[index]
         )
 
     @crew

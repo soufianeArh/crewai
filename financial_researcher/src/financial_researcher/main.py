@@ -18,12 +18,12 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'company': 'Tesla',
     }
 
     try:
-        FinancialResearcher().crew().kickoff(inputs=inputs)
+        reusult = FinancialResearcher().crew().kickoff(inputs=inputs)
+        print(reusult.raw)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 
