@@ -66,7 +66,8 @@ class StockPicker():
     def stock_picker(self) -> Agent:
         return Agent(
             config=self.agents_config['stock_picker'], # type: ignore[index]
-            verbose=True
+            verbose=True,
+
         )
 
     # To learn more about structured task outputs,
@@ -97,11 +98,17 @@ class StockPicker():
         """Creates the StockPicker crew"""
         # To learn how to add knowledge sources to your crew, check out the documentation:
         # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-
+        
+        manager = Agent(
+            config = self.agents_config["manager"],
+            allow_delegation = True
+        )
+        
         return Crew(
             agents=self.agents, # Automatically created by the @agent decorator
             tasks=self.tasks, # Automatically created by the @task decorator
-            process=Process.sequential,
+            process=Process.hierarchical,
             verbose=True,
+            manager_agent=manager
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )
