@@ -3,6 +3,7 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from pydantic import BaseModel, Field
 from typing import List
+from .tools.push_tool import PushNotificationTool
 
 
 # If you want to run a snippet of code before or after the crew starts,
@@ -67,7 +68,7 @@ class StockPicker():
         return Agent(
             config=self.agents_config['stock_picker'], # type: ignore[index]
             verbose=True,
-
+            tools=[PushNotificationTool()]
         )
 
     # To learn more about structured task outputs,
